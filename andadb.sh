@@ -23,14 +23,13 @@ echo "**                   Main Menu                   **"
 echo "***************************************************"
 echo "**  1 - Full Install - Android SDK, NDK, Eclipse **"
 echo "**    - ADB, 99-android.rules, and dependencies. **"
-echo "**  2 - Custom Install                           **"
+echo "**  2 - Custom Install/Uninstall                 **"
 echo "**  3 - ThemeR Studio by CorCor67                **"
 echo "**  4 - Apk Manager 4.7 by Daneshm90             **"
-echo "**  4 - Install Android Debug Bridge (adb)       **"
-echo "**  5 - Create/update the 99-android.rules file  **"
-echo "**  6 - Full Install                             **"
-echo "**  7 - Extras Menu                              **"
-echo "**  8 - Uninstall Options                        **"
+echo "**  5 -                                          **"
+echo "**  6 -                                          **"
+echo "**  7 -                                          **"
+echo "**  8 -                                          **"
 echo "**  9 - Help                                     **"
 echo "**  0 - Exit                                     **"
 echo "***************************************************"
@@ -181,44 +180,25 @@ exit
 ;;
 #############################################################
 #############################################################
-5 )
-#Downloads the latest version of 99-android.rules
-wget http://dl.dropbox.com/u/4413349/scripts/99-android.rules
-mv -f 99-android.rules /etc/udev/rules.d/
-;;
+
 #############################################################
 #############################################################
 
 #############################################################
 #############################################################
-7 ) 
-clear
-{
-cd extras && chmod +x extras.sh && ./extras.sh
-}
-exit 
-;;
+
 #############################################################
 #############################################################
-8 ) 
-clear
-{
-cd extras && chmod +x uninstall.sh && ./uninstall.sh
-}
-exit 
-;;
+
 #############################################################
 #############################################################
 9 )
 clear
-echo "1 - This option will resolve the missing dependencies required for the Android SDK, NDK, and Android Debug Bridge (adb) to function properly."
-echo "2 - Installs the Android SDK to the location /usr/local/android-sdk"
-echo "3 - Installs the Android NDK to the location /usr/local/android/ndk"
-echo "4 - Installs the Android Debug Bridge.  Requires Android SDK and Dependencies."
-echo "5 - Downloads or updates your 99-android.rules file to /etc/udev/rules.d/ directory"
-echo "6 - Automates steps 1-6."
-echo "7 - Takes you to the Extras menu."
-echo "8 - Takes you to the Uninstall menu."
+echo "1 - This option will automatically install everything required for the Android SDK, NDK, and Android Debug Bridge (adb), Eclipse, and download your 99-android.rules file."
+echo "2 - Takes you to the Custom installation / uninstall menu for the dependencies, Android SDK, NDK, ADB, and allows you to manually download and update your 99-android.rules file."
+echo "3 - This option takes you to CorCor67's ThemeR Studio."
+echo "4 - This option takes you to Daneshm90's Apk Manager 4.7."
+echo "0 - Exits the installer"
 echo "Please press enter to continue."
 read enter
 ;;

@@ -21,22 +21,22 @@ ap () {
 
 ex () {
 	cd other
-	rm -f "../place-apk-here-for-modding/repackaged.apk"
-	rm -f "../place-apk-here-for-modding/repackaged-signed.apk"
-	rm -f "../place-apk-here-for-modding/repackaged-unsigned.apk"
-	rm -rf "../out"
-	if [ ! -d "../out" ] ; then
-		mkdir "../out"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged.apk"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged-signed.apk"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged-unsigned.apk"
+	rm -rf "$HOME/Android/out"
+	if [ ! -d "$HOME/Android/out" ] ; then
+		mkdir "$HOME/Android/out"
 	fi
 	clear
-	# Must be -o"../out" and not -o "../out"
-	7za x -o"../out" ../place-apk-here-for-modding/*.apk
+	# Must be -o"$HOME/Android/out" and not -o "$HOME/Android/out"
+	7za x -o"$HOME/Android/out" $HOME/Android/place-apk-here-for-modding/*.apk
 	cd ..
 }
 
 opt () {
 	cd other
-	find "../out/res" -name *.png | while read PNG_FILE ;
+	find "$HOME/Android/out/res" -name *.png | while read PNG_FILE ;
 	do
 		if [ `echo "$PNG_FILE" | grep -c "\.9\.png$"` -eq 0 ] ; then
 			optipng -o99 "$PNG_FILE"
@@ -47,7 +47,7 @@ opt () {
 
 sys () {
 	cd other
-	7za a -tzip "../place-apk-here-for-modding/repackaged-unsigned.apk" ../out/* -mx9
+	7za a -tzip "$HOME/Android/place-apk-here-for-modding/repackaged-unsigned.apk" $HOME/Android/out/* -mx9
 	cd ..
 }
 
@@ -71,8 +71,8 @@ zip () {
 
 si () {
 	cd other
-	INFILE="../place-apk-here-for-modding/repackaged-unsigned.apk"
-	OUTFILE="../place-apk-here-for-modding/repackaged-signed.apk"
+	INFILE="$HOME/Android/place-apk-here-for-modding/repackaged-unsigned.apk"
+	OUTFILE="$HOME/Android/place-apk-here-for-modding/repackaged-signed.apk"
 	if [ -e "$INFILE" ] ; then
 		java -jar signapk.jar -w testkey.x509.pem testkey.pk8 "$INFILE" "$OUTFILE"
 		if [ "x$?" = "x0" ] ; then
@@ -136,19 +136,19 @@ apu () {
 
 de () {
 	cd other
-	rm -f "../place-apk-here-for-modding/repackaged.apk"
-	rm -f "../place-apk-here-for-modding/repackaged-signed.apk"
-	rm -f "../place-apk-here-for-modding/repackaged-unsigned.apk"
-	rm -rf "../out"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged.apk"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged-signed.apk"
+	rm -f "$HOME/Android/place-apk-here-for-modding/repackaged-unsigned.apk"
+	rm -rf "$HOME/Android/out"
 	rm -rf "out.out"
 	clear
-	java -jar apktool.jar d ../place-apk-here-for-modding/*.apk "../out"
+	java -jar apktool.jar d $HOME/Android/place-apk-here-for-modding/*.apk "$HOME/Android/out"
 	cd ..
 }
 
 co () {
 	cd other
-	java -jar apktool.jar b "../out" "../place-apk-here-for-modding/repackaged-unsigned.apk"
+	java -jar apktool.jar b "$HOME/Android/out" "$HOME/Android/place-apk-here-for-modding/repackaged-unsigned.apk"
 	cd ..
 }
 
@@ -160,14 +160,14 @@ all () {
 
 bopt () {
 	cd other
-	mkdir -p "../place-apk-here-to-batch-optimize/original"
-	find "../place-apk-here-to-batch-optimize" -name *.apk | while read APK_FILE ;
+	mkdir -p "$HOME/Android/place-apk-here-to-batch-optimize/original"
+	find "$HOME/Android/place-apk-here-to-batch-optimize" -name *.apk | while read APK_FILE ;
 	do
 		echo "Optimizing $APK_FILE"
 		# Extract
-		7za x -o"../place-apk-here-to-batch-optimize/original" "../place-apk-here-to-batch-optimize/$APK_FILE"
+		7za x -o"$HOME/Android/place-apk-here-to-batch-optimize/original" "$HOME/Android/place-apk-here-to-batch-optimize/$APK_FILE"
 		# PNG
-		find "../place-apk-here-to-batch-optimize/original" -name *.png | while read PNG_FILE ;
+		find "$HOME/Android/place-apk-here-to-batch-optimize/original" -name *.png | while read PNG_FILE ;
 		do
 			if [ `echo "$PNG_FILE" | grep -c "\.9\.png$"` -eq 0 ] ; then
 				optipng -o99 "$PNG_FILE"
@@ -175,27 +175,27 @@ bopt () {
 		done
 		# TODO optimize .ogg files
 		# Re-compress
-		7za a -tzip "../place-apk-here-to-batch-optimize/temp.zip" ../place-apk-here-to-batch-optimize/original/* -mx9
+		7za a -tzip "$HOME/Android/place-apk-here-to-batch-optimize/temp.zip" $HOME/Android/place-apk-here-to-batch-optimize/original/* -mx9
 		FILE=`basename "$APK_FILE"`
 		DIR=`dirname "$APK_FILE"`
-		mv -f "../place-apk-here-to-batch-optimize/temp.zip" "$DIR/optimized-$FILE"
-		rm -rf ../place-apk-here-to-batch-optimize/original/*
+		mv -f "$HOME/Android/place-apk-here-to-batch-optimize/temp.zip" "$DIR/optimized-$FILE"
+		rm -rf $HOME/Android/place-apk-here-to-batch-optimize/original/*
 	done
-	rm -rf "../place-apk-here-to-batch-optimize/original"
+	rm -rf "$HOME/Android/place-apk-here-to-batch-optimize/original"
 	cd ..
 }
 
 asi () {
 	cd other
-	rm -f "../place-apk-here-for-signing/signed.apk"
-	java -jar signapk.jar -w testkey.x509.pem testkey.pk8 ../place-apk-here-for-signing/*.apk "../place-apk-here-for-signing/signed.apk"
+	rm -f "$HOME/Android/place-apk-here-for-signing/signed.apk"
+	java -jar signapk.jar -w testkey.x509.pem testkey.pk8 $HOME/Android/place-apk-here-for-signing/*.apk "$HOME/Android/place-apk-here-for-signing/signed.apk"
 	#clear
 	cd ..
 }
 
 ogg () {
 	cd other
-	find "../place-ogg-here/" -name *.ogg | while read OGG_FILE ;
+	find "$HOME/Android/place-ogg-here/" -name *.ogg | while read OGG_FILE ;
 	do
 		FILE=`basename "$OGG_FILE"`
 		DIR=`dirname "$OGG_FILE"`
@@ -260,7 +260,11 @@ restart () {
 		14) bopt ;;
 		15)  asi ;;
 		16)  ogg ;;
-		17) quit ;;
+		17) 
+clear
+{
+cd .. && cd .. && ./andadb.sh
+} ;;
 		 *)
 			echo "Unknown command: '$ANSWER'"
 		;;
@@ -290,14 +294,16 @@ clear
 printf "%s" "Do you want to clean out all your current projects (y/N)? "
 read INPUT
 if [ "x$INPUT" = "xy" ] || [ "x$INPUT" = "xY" ] ; then
-	rm -rf place-apk-here-for-modding
-	rm -rf place-apk-here-for-signing
-	rm -rf place-apk-here-to-batch-optimize
-	rm -rf out
-	rm -rf $HOME/apktool
-	mkdir place-apk-here-for-modding
-	mkdir place-apk-here-for-signing
-	mkdir place-apk-here-to-batch-optimize
+	rm -rf $HOME/Android/place-apk-here-for-modding
+	rm -rf $HOME/Android/place-apk-here-for-signing
+	rm -rf $HOME/Android/place-apk-here-to-batch-optimize
+	rm -rf $HOME/Android/out
+	rm -rf $HOME/Android/apktool
+	mkdir $HOME/Android
+	mkdir $HOME/Android/place-apk-here-for-modding
+	mkdir $HOME/Android/place-apk-here-for-signing
+	mkdir $HOME/Android/place-apk-here-to-batch-optimize
+	chmod -R 777 $HOME/Android
 fi
 while [ "1" = "1" ] ;
 do

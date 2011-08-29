@@ -105,7 +105,7 @@ read enter
 0 ) 
 clear
 {
-cd .. && ./extras.sh
+cd .. && cd .. && ./andadb.sh
 }
 ;;
 * ) echo "Please enter a number from the list above"
